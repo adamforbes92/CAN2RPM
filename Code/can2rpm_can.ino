@@ -1,10 +1,9 @@
 void canInit() {
   chassisCAN.setRX(pinRX_CAN);
   chassisCAN.setTX(pinTX_CAN);
+  chassisCAN.begin();
   chassisCAN.setBaudRate(500000);  // CAN Speed in Hz
   chassisCAN.onReceive(onBodyRX);
-  chassisCAN.begin();
-  // set filters up for focusing on only MOT1 / MOT 2?
 }
 
 void onBodyRX(const CAN_message_t& frame) {
@@ -27,17 +26,13 @@ void onBodyRX(const CAN_message_t& frame) {
       // frame[3] (byte 4) > motor speed high byte
       // frame[4] (byte 3) > khm speed?
       vehicleRPM = ((frame.buf[3] << 8) | frame.buf[2]) * 0.25;  // conversion: 0.25*HEX
+      lastCAN = millis();
       break;
     default:
       // do nothing...
       break;
   }
     // do the calc
-
-
-#if stateDebug
-  Serial.println();
-  Serial.print("vehicleRPM: ");
-  Serial.println(vehicleRPM);
-#endif
+  DEBUG_PRINTF("vehicleRPM: ");
+  DEBUG_PRINTLN(vehicleRPM);
 }
