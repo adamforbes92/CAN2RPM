@@ -8,11 +8,11 @@
 
 /* Defines */
 // Debug statements
-#define ChassisCANDebug 0       // if 1, will print CAN 2 (Chassis) messages ** CAN CHANGE THIS **
+#define ChassisCANDebug 1       // if 1, will print CAN 2 (Chassis) messages ** CAN CHANGE THIS **
 #define serialDebug 1           // if 1, will use Serial talkback ** CAN CHANGE THIS **
-#define serialDebugWifi 1       // if 1, will use Serial talkback for WiFi
+#define serialDebugWifi 0       // if 1, will use Serial talkback for WiFi
 #define wifiHostName "CAN2RPM"  // the WiFi name
-#define eepRefresh 2000         // EEPROM Refresh in ms
+#define eepRefresh 5000         // EEPROM Refresh in ms
 #define wifiDisable 30000       // turn off WiFi in ms
 
 // setup - main inputs
@@ -31,7 +31,7 @@ extern uint16_t tempRPM = 3000;          // min frequency for top speed using th
 // setup - pins (output)
 #define pinRX_CAN 17  // pin output for SN65HVD230 (CAN_RX)
 #define pinTX_CAN 16  // pin output for SN65HVD230 (CAN_TX)
-#define pinCoil 25    // pin output for RPM (MK2/High Output Coil Trigger)
+#define pinCoil 26    // pin output for RPM (MK2/High Output Coil Trigger)
 #define onboardLED 2  // pin onboard LED
 
 // Baud Rates

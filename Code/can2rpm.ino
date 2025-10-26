@@ -46,8 +46,8 @@ void setFrequencyRPM(long frequencyHz) {
 }
 
 void setup() {
-  readEEP();             // read the EEPROM for previous states
-  tickEEP.start();       // begin ticker for the EEPROM
+  readEEP();        // read the EEPROM for previous states
+  tickEEP.start();  // begin ticker for the EEPROM
   tickError.start();
   tickWiFi.start();      // begin ticker for the WiFi (to turn off after 60s)
   tickWiFiConn.start();  // begin ticker to check the number of WiFi connections (to flash the onboard LED)
@@ -66,7 +66,7 @@ void setup() {
 
 void loop() {
   // get the easy stuff out the way first
-  tickEEP.update();       // refresh the EEP ticker
+  tickEEP.update();  // refresh the EEP ticker
   tickError.update();
   tickWiFi.update();      // refresh the WiFi ticker
   tickWiFiConn.update();  // refresh the WiFi connection ticker
@@ -78,7 +78,7 @@ void loop() {
   }
 
   // if last CAN message was >500ms ago, it's in an error state, set flag
-  if ((millis() - lastCAN) > 500) {
+  if ((millis() + 10 - lastCAN) > 500) {
     hasError = true;
     ESPUI.updateLabel(label_hasCAN, "No");
     ESPUI.updateLabel(label_RPMCAN, "CAN RPM: 0");
@@ -90,7 +90,7 @@ void loop() {
     ESPUI.updateLabel(label_RPMCAN, String(buf));
   }
 
-  if ((millis() - lastMillis) > rpmDelay) {  // check to see if x ms (rpmDelay) has elapsed - slow down the RPM changes!
+  if ((millis() + 10 - lastMillis) > rpmDelay) {  // check to see if x ms (rpmDelay) has elapsed - slow down the RPM changes!
     lastMillis = millis();
 
     // diagTest is in 'WiFi' and will allow the user to set a fixed RPM for calibration

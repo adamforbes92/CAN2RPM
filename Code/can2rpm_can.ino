@@ -27,12 +27,13 @@ void onBodyRX(const CAN_message_t& frame) {
       // frame[4] (byte 3) > khm speed?
       vehicleRPM = ((frame.buf[3] << 8) | frame.buf[2]) * 0.25;  // conversion: 0.25*HEX
       lastCAN = millis();
+
+      DEBUG_PRINTF("vehicleRPM: ");
+      DEBUG_PRINTLN(vehicleRPM);
       break;
     default:
       // do nothing...
       break;
   }
-    // do the calc
-  DEBUG_PRINTF("vehicleRPM: ");
-  DEBUG_PRINTLN(vehicleRPM);
+  // do the calc
 }
