@@ -3,4 +3,4 @@ CAN2RPM is based on an ESP32 and is designed to provide an RPM signal for tradit
 
 It is a very lightweight module and is similar to Can2Cluster, but has considerably less functionality (RPM output ONLY).
 
-![CAN2RPM Board](/main/Images/BoardOverview.png)
+![CAN2RPM Board](/tree/main/Images/BoardOverview.png)
