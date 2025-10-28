@@ -23,5 +23,15 @@ Boards are supplied with 2x JST-XH cables: 1x 3-pin and 1x 2-pin.
 ## WiFi
 A WiFi setup is available within the first 60 seconds after boot.  This is to minimise current draw while running.  Once booted, WiFi can be accessed by connecting and searching for 192.168.1.1 on your browser.
 
+Typical setups include the addition of needle sweep or RPM range.
+
 ## Termination Resistor
 A jumper is available for a termination resistor if there are other CAN devices on the network.  If there are, this can be removed.
+
+## Circuit Design
+Traditional ignition coils create a high-voltage 'spike' when the current is removed.  The concept of this circuit is to re-create this by charging and collapsing the 'ignition coil'.  A "DR125-124-R" inductor is used as this shares a similar 'resistance' and very low inductance value which mimicks an OEM ignition coil.
+
+The ESP32 reads CANBUS data and captures the RPM value.  It is based on VAG ECUs and therefore the CAN ID for RPM is in 'Motor1' - 0x280.  Aftermarket ECUs can be added.
+
+The RPM is then converted into a lower frequency pulse (ranging typically from 0 to 230hz).  
+![CAN2RPM Schematic](/Images/Schematic.png)
