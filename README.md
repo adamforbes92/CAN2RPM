@@ -6,6 +6,8 @@ It is a very lightweight module and is similar to Can2Cluster, but has considera
 ![CAN2RPM Board](/Images/BoardOverview.png)
 
 ## Installation
+
+### Power and Outputs
 Boards are supplied with 2x JST-XH cables: 1x 3-pin and 1x 2-pin.
 
 > Coil - 'ignition' coil pulse on the cluster and is RPM output
@@ -14,7 +16,7 @@ Boards are supplied with 2x JST-XH cables: 1x 3-pin and 1x 2-pin.
 
 > PWR - 12v ignition power
 
-
+### CANBUS Inputs
 > CANH - CANBUS High
 
 > CANL - CANBUS Low
