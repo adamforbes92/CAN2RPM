@@ -141,13 +141,6 @@ void connectWifi() {
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(IPAddress(192, 168, 1, 1), IPAddress(192, 168, 1, 1), IPAddress(255, 255, 255, 0));
   WiFi.softAP(wifiHostName);
-
-  connect_timeout = 20;
-  do {
-    delay(250);
-    DEBUG_PRINTF(".");
-    connect_timeout--;
-  } while (connect_timeout);
 }
 
 void disconnectWifi() {

@@ -31,6 +31,16 @@ void onBodyRX(const CAN_message_t& frame) {
       DEBUG_PRINTF("vehicleRPM: ");
       DEBUG_PRINTLN(vehicleRPM);
       break;
+    case AFTERMARKET_ID:
+      // frame[2] (byte 3) > motor speed low byte
+      // frame[3] (byte 4) > motor speed high byte
+      // frame[4] (byte 3) > khm speed?
+      vehicleRPM = ((frame.buf[3] << 8) | frame.buf[2]) * 0.25;  // conversion: 0.25*HEX
+      lastCAN = millis();
+
+      DEBUG_PRINTF("vehicleRPM: ");
+      DEBUG_PRINTLN(vehicleRPM);
+      break;
     default:
       // do nothing...
       break;

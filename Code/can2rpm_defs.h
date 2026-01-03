@@ -23,7 +23,7 @@ extern bool hasNeedleSweep = false;  // for needle sweep ** CAN CHANGE THIS **
 extern uint8_t sweepSpeed = 18;      // for needle sweep rate of change (in ms) ** CAN CHANGE THIS **
 
 // setup - Hz adjustment
-#define rpmDelay 80                      // update rate from CAN to RPM.  Reduces the loop work
+#define rpmDelay 20                      // update rate from CAN to RPM.  Reduces the loop work
 extern uint16_t maxRPM = 230;            //max RPM in Hz for the cluster (for needle sweep) ** CAN CHANGE THIS **
 extern uint16_t clusterRPMLimit = 7000;  // min frequency for top speed using the 02J / 02M hall sensor  ** CAN CHANGE THIS **
 extern uint16_t tempRPM = 3000;          // min frequency for top speed using the 02J / 02M hall sensor  ** CAN CHANGE THIS **
@@ -50,6 +50,7 @@ extern uint32_t lastCAN = 0;     // last CAN message
 
 // define CAN Address to filter on.  Only looking for RPM, so no need to clog
 #define MOTOR1_ID 0x280
+#define AFTERMARKET_ID 0x1001
 
 extern void basicInit(void);
 extern void canInit(void);

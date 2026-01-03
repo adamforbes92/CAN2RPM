@@ -1,9 +1,5 @@
 /* 
 Basic CAN-BUS converter to coil based output.  Used for MK2 'analog' clusters in ME7.x and aftermarket conversions.
-V1.00 - base file
-V1.01 - added error LED for no CAN messages
-V1.02 - added WiFi Setup pages
-
 Forbes-Automotive, 2025
 */
 
@@ -82,6 +78,7 @@ void loop() {
     hasError = true;
     ESPUI.updateLabel(label_hasCAN, "No");
     ESPUI.updateLabel(label_RPMCAN, "CAN RPM: 0");
+    vehicleRPM = 0;
   } else {
     hasError = false;
     ESPUI.updateLabel(label_hasCAN, "Yes");
