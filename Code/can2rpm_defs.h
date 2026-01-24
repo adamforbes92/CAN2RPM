@@ -8,12 +8,12 @@
 
 /* Defines */
 // Debug statements
-#define ChassisCANDebug 1       // if 1, will print CAN 2 (Chassis) messages ** CAN CHANGE THIS **
-#define serialDebug 1           // if 1, will use Serial talkback ** CAN CHANGE THIS **
+#define ChassisCANDebug 0       // if 1, will print CAN 2 (Chassis) messages ** CAN CHANGE THIS **
+#define serialDebug 0           // if 1, will use Serial talkback ** CAN CHANGE THIS **
 #define serialDebugWifi 0       // if 1, will use Serial talkback for WiFi
 #define wifiHostName "CAN2RPM"  // the WiFi name
 #define eepRefresh 5000         // EEPROM Refresh in ms
-#define wifiDisable 30000       // turn off WiFi in ms
+#define wifiDisable 60000       // turn off WiFi in ms
 
 // setup - main inputs
 extern bool selfTest = false;  // for testing only, vary final pwmFrequency for speed ** CAN CHANGE THIS **
