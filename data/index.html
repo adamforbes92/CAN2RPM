@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CAN2RPM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CAN2RPM</h1>
+            <div class="status-bar">
+                <span class="status-badge" id="canStatus">CAN: --</span>
+                <span class="status-badge" id="fwVersion">FW: --</span>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-page="dashboard">Dashboard</button>
+            <button class="nav-tab" data-page="configuration">Configuration</button>
+            <button class="nav-tab" data-page="advanced">Advanced</button>
+            <button class="nav-tab" data-page="ota">OTA</button>
+        </nav>
+
+        <!-- ══ Dashboard ══════════════════════════════════════════ -->
+        <div class="page active" id="dashboard-page">
+            <section class="card">
+                <h2>Live Data</h2>
+                <div class="gauge-grid">
+                    <div class="gauge">
+                        <div class="gauge-label">Engine RPM</div>
+                        <div class="gauge-value" id="rpm">--</div>
+                        <div class="gauge-unit">RPM</div>
+                    </div>
+                    <div class="gauge">
+                        <div class="gauge-label">Frequency</div>
+                        <div class="gauge-value" id="outputHz">--</div>
+                        <div class="gauge-unit">Hz</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>System Status</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-label">CAN Bus</div>
+                        <div class="status-value" id="canPresent">--</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Test Mode</div>
+                        <div class="status-value" id="testModeStatus">Off</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ══ Configuration ══════════════════════════════════════ -->
+        <div class="page" id="configuration-page">
+            <section class="card">
+                <h2>Needle Sweep</h2>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="hasNeedleSweep">
+                        Enable Needle Sweep on Startup
+                    </label>
+                </div>
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Sweep Speed (ms per step)</label>
+                    <input type="number" id="sweepSpeed" min="1" max="100" value="18">
+                </div>
+                <button class="btn-secondary" id="testNeedleSweep" style="margin-top:1rem;">Test Needle Sweep</button>
+            </section>
+
+            <section class="card">
+                <h2>Cluster RPM Limit</h2>
+                <p class="hint">Maximum vehicle RPM that maps to full output frequency.</p>
+                <div class="input-group">
+                    <label>RPM Limit: <span id="clusterRPMLimit-display">7000</span> RPM</label>
+                    <input type="range" id="clusterRPMLimit" min="500" max="10000" step="5" value="7000" class="slider">
+                </div>
+                <button class="btn-secondary" id="resetClusterRPM">Reset to Defaults</button>
+            </section>
+
+            <section class="card">
+                <h2>Output Frequency Scaling</h2>
+                <p class="hint">Maximum coil output frequency at full RPM.</p>
+                <div class="input-group">
+                    <label>Max Output: <span id="maxRPM-display">230</span> Hz</label>
+                    <input type="range" id="maxRPM" min="1" max="500" step="5" value="230" class="slider">
+                </div>
+                <button class="btn-secondary" id="resetRPMScaling">Reset to Defaults</button>
+            </section>
+        </div>
+
+        <!-- ══ Advanced ═══════════════════════════════════════════ -->
+        <div class="page" id="advanced-page">
+            <section class="card">
+                <h2>ECU Source</h2>
+                <div class="input-group">
+                    <label>ECU Type</label>
+                    <select id="ecuMode">
+                        <option value="0">Bosch ME7.x</option>
+                        <option value="1">Aftermarket ECU</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>RPM Output Test</h2>
+                <p class="hint">Override CAN input with a fixed RPM value for calibration.</p>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="tempDiagTest">
+                        Enable Fixed RPM Test
+                    </label>
+                </div>
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Test RPM: <span id="tempRPM-display" style="transition:color 0.3s;">0</span> RPM</label>
+                    <input type="range" id="tempRPM" min="0" max="9000" step="5" value="0" class="slider">
+                </div>
+            </section>
+
+            <section class="card" id="aftermarketCard" style="display:none;">
+                <h2>Aftermarket ECU Specifics</h2>
+                <div class="input-group">
+                    <label>CAN ID</label>
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                        <span>0x:</span>
+                        <input type="text" id="aftermarketCanIdHex" maxlength="8" placeholder="1001" style="text-transform:uppercase;">
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Low Byte (0-7)</label>
+                    <input type="number" id="aftermarketByteLow" min="0" max="7" value="2">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>High Byte (0-7)</label>
+                    <input type="number" id="aftermarketByteHigh" min="0" max="7" value="3">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Multiplier</label>
+                    <input type="number" id="aftermarketMultiplier" min="-1000" max="1000" step="0.001" value="1.000">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Addition</label>
+                    <input type="number" id="aftermarketAddition" min="-1000" max="1000" value="0">
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Live Diagnostics</h2>
+                <div class="live-data-grid">
+                    <div class="live-data-item">
+                        <div class="live-data-label">CAN RPM</div>
+                        <div class="live-data-value" id="liveCANRPM">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">Output Hz</div>
+                        <div class="live-data-value" id="liveOutputHz">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">CAN Status</div>
+                        <div class="live-data-value" id="liveCANStatus">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">RPM Valid</div>
+                        <div class="live-data-value" id="liveRPMTruth">--</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ══ OTA ════════════════════════════════════════════════ -->
+        <div class="page" id="ota-page">
+            <section class="card">
+                <h2>Device Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Board</div>
+                        <div class="info-value" id="otaBoard">--</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Hardware</div>
+                        <div class="info-value" id="otaHardware">--</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Firmware</div>
+                        <div class="info-value" id="otaCurrentVersion">--</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Firmware Update</h2>
+                <div class="warning-box">
+                    &#9888; <strong>Warning:</strong> Do not power off during the update. The device will reboot automatically.
+                </div>
+                <div class="file-upload-section">
+                    <label class="file-upload-label">
+                        <input type="file" id="otaFileInput" accept=".bin" style="display:none;">
+                        <span class="upload-button">Choose .bin File</span>
+                    </label>
+                    <div class="file-name" id="otaFileName">No file selected</div>
+                </div>
+                <button class="btn-primary" id="otaUploadBtn" disabled>Start Update</button>
+                <div class="progress-container" id="otaProgressContainer" style="display:none;">
+                    <div class="progress-label" id="otaProgressLabel">Uploading...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="otaProgressFill"></div>
+                    </div>
+                    <div class="progress-percent" id="otaProgressPercent">0%</div>
+                </div>
+                <div class="status-message" id="otaStatusMessage" style="display:none;"></div>
+            </section>
+        </div>
+
+    </div><!-- .container -->
+
+    <script src="app.js"></script>
+</body>
+</html>
