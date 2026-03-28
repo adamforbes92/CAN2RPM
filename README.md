@@ -5,6 +5,9 @@ It is a very lightweight module and is similar to Can2Cluster, but has considera
 
 ![CAN2RPM Board](/Images/BoardOverview.png)
 
+### Purchase
+If you want to purchase an assembled CAN2RPM, you can do so here: [CAN2RPM - Forbes Automotive](https://forbes-automotive.com/products/can2rpm)
+
 ## Installation
 Boards are supplied with 2x JST-XH cables: 1x 3-pin and 1x 2-pin.
 
