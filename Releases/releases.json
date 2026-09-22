@@ -1,0 +1,57 @@
+{
+  "product": "can2rpm",
+  "latest": "1.07",
+  "releases": [
+    {
+      "version": "1.07",
+      "channel": "stable",
+      "date": "2026-09-21",
+      "ota": true,
+      "notes": "OTA overhaul: update from GitHub, Home WiFi bridge mode, recovery page; shared ota_manager/wifi_manager v2.",
+      "firmware": {
+        "path": "V1.07/firmware.bin",
+        "size": 1186896,
+        "sha256": "d5694c5d30b0051b3a8dbce65b24250a25416d9b6f1eb99351adaf2c91aa863d"
+      },
+      "filesystem": {
+        "path": "V1.07/littlefs.bin",
+        "size": 1441792,
+        "sha256": "15df318c173b589d43ce323f16221776b803c56f7b54720992e3731c01e39df4"
+      }
+    },
+    {
+      "version": "1.06",
+      "channel": "stable",
+      "date": "2026-09-20",
+      "ota": true,
+      "notes": "Shared UI theme; common wifi_manager/ota_manager.",
+      "firmware": {
+        "path": "V1.06/firmware.bin",
+        "size": 1087744,
+        "sha256": "5818df61fdc3781a65d3badbcaf56d5724a68efe6f2d8a4a61649d9149ae45a7"
+      },
+      "filesystem": {
+        "path": "V1.06/littlefs.bin",
+        "size": 1441792,
+        "sha256": "f92e4845adcaa8eb8b81a02e71adc584c6c2f8033764e06b911c5030738c8c3d"
+      }
+    },
+    {
+      "version": "1.05",
+      "channel": "stable",
+      "date": "2026-09-20",
+      "ota": true,
+      "notes": "",
+      "firmware": {
+        "path": "V1.05/firmware.bin",
+        "size": 1044560,
+        "sha256": "f5b3d9caccabf3a4a42597d5fd69b35b81ab37f62adf25c9aced1e9266f88837"
+      },
+      "filesystem": {
+        "path": "V1.05/littlefs.bin",
+        "size": 1441792,
+        "sha256": "d73ea18aae91163575e8537586e3104bda084ef760f91584c1c6dcfdcab981f5"
+      }
+    }
+  ]
+}
