@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>CAN2RPM</title>
+    <link rel="stylesheet" href="style.css?v=1.07">
+</head>
+<body>
+    <div class="container">
+        <header class="topbar">
+            <h1>CAN2RPM</h1>
+            <div class="status-bar">
+                <span class="status-badge" id="canStatus">CAN: --</span>
+                <span class="status-badge" id="fwVersion">FW: --</span>
+            </div>
+        </header>
+
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-page="dashboard">Dashboard</button>
+            <button class="nav-tab" data-page="configuration">Configuration</button>
+            <button class="nav-tab" data-page="advanced">Advanced</button>
+            <button class="nav-tab" data-page="ota">OTA</button>
+        </nav>
+
+        <!-- ══ Dashboard ══════════════════════════════════════════ -->
+        <div class="page active" id="dashboard-page">
+            <section class="card">
+                <h2>Live Data</h2>
+                <div class="gauge-grid">
+                    <div class="gauge">
+                        <div class="gauge-label">Engine RPM</div>
+                        <div class="gauge-value" id="rpm">--</div>
+                        <div class="gauge-unit">RPM</div>
+                    </div>
+                    <div class="gauge">
+                        <div class="gauge-label">Frequency</div>
+                        <div class="gauge-value" id="outputHz">--</div>
+                        <div class="gauge-unit">Hz</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>System Status</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-label">CAN Bus</div>
+                        <div class="status-value" id="canPresent">--</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">Test Mode</div>
+                        <div class="status-value" id="testModeStatus">Off</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Display Options</h2>
+                <p class="hint">Choose which readouts show as dial gauges instead of numbers. Saved in this browser.</p>
+                <div class="tile-opt-grid" id="gaugeCustomizer"></div>
+            </section>
+        </div>
+
+        <!-- ══ Configuration ══════════════════════════════════════ -->
+        <div class="page" id="configuration-page">
+            <section class="card">
+                <h2>Needle Sweep</h2>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="hasNeedleSweep">
+                        Enable Needle Sweep on Startup
+                    </label>
+                </div>
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Sweep Speed (ms per step)</label>
+                    <input type="number" id="sweepSpeed" min="1" max="100" value="18">
+                </div>
+                <button class="btn-secondary" id="testNeedleSweep" style="margin-top:1rem;">Test Needle Sweep</button>
+            </section>
+
+            <section class="card">
+                <h2>Cluster RPM Limit</h2>
+                <p class="hint">Maximum vehicle RPM that maps to full output frequency.</p>
+                <div class="input-group">
+                    <label>RPM Limit: <span id="clusterRPMLimit-display">7000</span> RPM</label>
+                    <input type="range" id="clusterRPMLimit" min="500" max="10000" step="5" value="7000" class="slider">
+                </div>
+                <button class="btn-secondary" id="resetClusterRPM">Reset to Defaults</button>
+            </section>
+
+            <section class="card">
+                <h2>Output Frequency Scaling</h2>
+                <p class="hint">Maximum coil output frequency at full RPM.</p>
+                <div class="input-group">
+                    <label>Max Output: <span id="maxRPM-display">230</span> Hz</label>
+                    <input type="range" id="maxRPM" min="1" max="500" step="5" value="230" class="slider">
+                </div>
+                <button class="btn-secondary" id="resetRPMScaling">Reset to Defaults</button>
+            </section>
+        </div>
+
+        <!-- ══ Advanced ═══════════════════════════════════════════ -->
+        <div class="page" id="advanced-page">
+            <section class="card">
+                <h2>ECU Source</h2>
+                <div class="input-group">
+                    <label>ECU Type</label>
+                    <select id="ecuMode">
+                        <option value="0">Bosch ME7.x</option>
+                        <option value="1">Aftermarket ECU</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>RPM Output Test</h2>
+                <p class="hint">Override CAN input with a fixed RPM value for calibration.</p>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="tempDiagTest">
+                        Enable Fixed RPM Test
+                    </label>
+                </div>
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Test RPM: <span id="tempRPM-display" style="transition:color 0.3s;">0</span> RPM</label>
+                    <input type="range" id="tempRPM" min="0" max="9000" step="5" value="0" class="slider">
+                </div>
+            </section>
+
+            <section class="card" id="aftermarketCard" style="display:none;">
+                <h2>Aftermarket ECU Specifics</h2>
+                <div class="input-group">
+                    <label>CAN ID</label>
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                        <span>0x:</span>
+                        <input type="text" id="aftermarketCanIdHex" maxlength="8" placeholder="1001" style="text-transform:uppercase;">
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Low Byte (0-7)</label>
+                    <input type="number" id="aftermarketByteLow" min="0" max="7" value="2">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>High Byte (0-7)</label>
+                    <input type="number" id="aftermarketByteHigh" min="0" max="7" value="3">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Multiplier</label>
+                    <input type="number" id="aftermarketMultiplier" min="-1000" max="1000" step="0.001" value="1.000">
+                </div>
+
+                <div class="input-group" style="margin-top:1rem;">
+                    <label>Addition</label>
+                    <input type="number" id="aftermarketAddition" min="-1000" max="1000" value="0">
+                </div>
+            </section>
+
+            <section class="card">
+                <h2>Live Diagnostics</h2>
+                <div class="live-data-grid">
+                    <div class="live-data-item">
+                        <div class="live-data-label">CAN RPM</div>
+                        <div class="live-data-value" id="liveCANRPM">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">Output Hz</div>
+                        <div class="live-data-value" id="liveOutputHz">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">CAN Status</div>
+                        <div class="live-data-value" id="liveCANStatus">--</div>
+                    </div>
+                    <div class="live-data-item">
+                        <div class="live-data-label">RPM Valid</div>
+                        <div class="live-data-value" id="liveRPMTruth">--</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ══ OTA ════════════════════════════════════════════════ -->
+        <div class="page" id="ota-page">
+            <section class="card">
+              <h2>Device</h2>
+              <div class="ota-info">
+                <div><span>Firmware</span><strong id="otaFwVersion">--</strong></div>
+                <div><span>Web UI</span><strong id="otaFsVersion">--</strong></div>
+                <div><span>Board</span><strong id="otaBoard">--</strong></div>
+                <div><span>Updates</span><strong id="otaSafe">--</strong></div>
+              </div>
+              <p class="hint" id="otaSafeHint"></p>
+            </section>
+
+            <section class="card">
+              <h2>Update from GitHub</h2>
+              <div class="ota-info">
+                <div><span>Installed</span><strong id="updInstalled">--</strong></div>
+                <div><span>Latest</span><strong id="updLatest">--</strong></div>
+                <div><span>Status</span><strong id="updState">Not checked</strong></div>
+              </div>
+              <p class="hint">This browser needs internet while it can still reach the controller: join the controller to your
+                router in <a href="#otaWifiStaCard" id="updGoBridge">Home WiFi</a> below, put this phone on the same network and
+                open the address that card shows. On the controller's own access point alone most phones drop mobile data.
+                Keep this page open until the device has rebooted. Release channel: <code id="updRepo">--</code></p>
+              <div class="ota-row">
+                <button id="updCheckBtn" class="btn primary">Check for updates</button>
+                <button id="updBridgeBtn" class="btn" hidden>Set up Home WiFi</button>
+                <label class="upd-beta"><input type="checkbox" id="updShowAll"> Show beta / older versions</label>
+              </div>
+              <div id="updStatus" class="status-line">Idle</div>
+              <div id="updPicker" hidden>
+                <label class="ota-field">Version
+                  <select id="updVersion"></select>
+                </label>
+                <div id="updNotes" class="upd-notes"></div>
+                <div class="ota-row">
+                  <button id="updInstallBtn" class="btn primary">Install selected</button>
+                </div>
+              </div>
+              <div class="ota-steps" id="updSteps">
+                <div class="ota-step" data-step="dlfs"><span class="ota-step-num">1</span> Get UI</div>
+                <div class="ota-step" data-step="fs"><span class="ota-step-num">2</span> Flash UI</div>
+                <div class="ota-step" data-step="verify"><span class="ota-step-num">3</span> Verify</div>
+                <div class="ota-step" data-step="dlfw"><span class="ota-step-num">4</span> Get FW</div>
+                <div class="ota-step" data-step="fw"><span class="ota-step-num">5</span> Flash FW</div>
+                <div class="ota-step" data-step="reboot"><span class="ota-step-num">6</span> Reboot</div>
+              </div>
+              <div class="ota-progress" id="updProgressWrap" hidden>
+                <div class="ota-progress-bar" id="updProgressBar"></div>
+                <span class="ota-progress-label" id="updProgressLabel">0%</span>
+              </div>
+            </section>
+
+            <section class="card" id="otaWifiStaCard">
+              <h2>Home WiFi (Bridge Mode)</h2>
+              <p class="hint">Join the controller to your home or garage router; its own access point keeps running. Once it
+                shows <em>Connected</em>, put this phone on the same network, open the address shown and press
+                <strong>Check for updates</strong> again.</p>
+              <p class="status-line" id="otaWifiStaStatus">--</p>
+              <div class="ota-wifi-row">
+                <input type="text" id="otaWifiStaSsidInput" placeholder="Home network name" maxlength="32" autocomplete="off" spellcheck="false" list="otaWifiStaSsidList">
+                <datalist id="otaWifiStaSsidList"></datalist>
+                <button class="btn ota-icon" id="otaWifiStaScan" title="Scan for networks">&#128269;</button>
+              </div>
+              <div class="ota-wifi-row">
+                <input type="password" id="otaWifiStaPasswordInput" placeholder="Home network password (blank = open)" maxlength="64" autocomplete="new-password">
+                <button class="btn ota-icon" id="otaWifiStaPasswordToggle" title="Show / hide password">&#128065;</button>
+              </div>
+              <div class="ota-row">
+                <button class="btn" id="otaWifiStaSave">Save &amp; Apply</button>
+                <button class="btn" id="otaWifiStaReset">Disable</button>
+              </div>
+            </section>
+
+            <section class="card">
+              <h2>Update from Files</h2>
+              <p class="hint">No internet needed here. Download <code>littlefs.bin</code> and <code>firmware.bin</code> from the
+                newest <code>V…</code> folder under <code>Releases/</code> on GitHub, then upload them here:
+                <strong>Filesystem</strong> (littlefs.bin, the web interface) first, then <strong>Firmware</strong>
+                (firmware.bin). The device reboots once the firmware upload completes.</p>
+              <div class="ota-steps" id="otaSteps">
+                <div class="ota-step" data-step="filesystem"><span class="ota-step-num">1</span> Filesystem</div>
+                <div class="ota-step" data-step="firmware"><span class="ota-step-num">2</span> Firmware</div>
+              </div>
+              <label class="ota-field">Update Type
+                <select id="otaType">
+                  <option value="filesystem">Filesystem (web UI)</option>
+                  <option value="firmware">Firmware (application)</option>
+                </select>
+              </label>
+              <label class="ota-field">Binary (.bin)
+                <input id="otaBin" type="file" accept=".bin,application/octet-stream">
+              </label>
+              <div class="ota-progress" id="otaProgressWrap" hidden>
+                <div class="ota-progress-bar" id="otaProgressBar"></div>
+                <span class="ota-progress-label" id="otaProgressLabel">0%</span>
+              </div>
+              <div class="ota-row">
+                <button id="otaUploadBtn" class="btn primary">Upload</button>
+              </div>
+              <div id="otaStatus" class="status-line">Idle</div>
+            </section>
+        </div>
+
+    </div><!-- .container -->
+
+    <script src="app.js?v=1.07"></script>
+    <script src="ota.js?v=1.07"></script>
+</body>
+</html>
