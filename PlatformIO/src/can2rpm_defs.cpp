@@ -38,6 +38,7 @@ const ledc_timer_t     rpmLedcTimer      = LEDC_TIMER_0;
 const ledc_channel_t   rpmLedcChannel    = LEDC_CHANNEL_0;
 const ledc_timer_bit_t rpmLedcResolution = LEDC_TIMER_10_BIT;
 const uint32_t         rpmLedcMinFreqHz  = 10;
+const uint32_t         rpmLedcLatchFreqHz= 5000; // duty changes are latched at this rate - see setFrequencyRPM()
 const uint32_t         rpmLedcDutyOff    = 0;
 const uint32_t         rpmLedcDuty50     = 512;
 

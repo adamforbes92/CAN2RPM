@@ -88,6 +88,7 @@ extern const ledc_timer_t     rpmLedcTimer;
 extern const ledc_channel_t   rpmLedcChannel;
 extern const ledc_timer_bit_t rpmLedcResolution;
 extern const uint32_t         rpmLedcMinFreqHz;
+extern const uint32_t         rpmLedcLatchFreqHz;
 extern const uint32_t         rpmLedcDutyOff;
 extern const uint32_t         rpmLedcDuty50;
 
