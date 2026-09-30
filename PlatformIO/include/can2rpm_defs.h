@@ -2,7 +2,6 @@
 
 #include <Arduino.h>
 #include "driver/twai.h"
-#include "driver/ledc.h"
 #include <Preferences.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncJson.h>
@@ -82,15 +81,6 @@ extern bool     tempDiagTest;
 extern uint32_t lastMillis;
 
 extern long        frequencyRPM;
-
-extern const ledc_mode_t      rpmLedcMode;
-extern const ledc_timer_t     rpmLedcTimer;
-extern const ledc_channel_t   rpmLedcChannel;
-extern const ledc_timer_bit_t rpmLedcResolution;
-extern const uint32_t         rpmLedcMinFreqHz;
-extern const uint32_t         rpmLedcLatchFreqHz;
-extern const uint32_t         rpmLedcDutyOff;
-extern const uint32_t         rpmLedcDuty50;
 
 extern TaskHandle_t updateRPMHandle;
 extern Preferences    pref;

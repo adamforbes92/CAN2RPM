@@ -24,6 +24,12 @@ V1.07 - OTA overhaul (shared ota_manager / wifi_manager v2 + data/ota.js, ported
         tools/make_release.py) plus a Home WiFi (bridge mode) card; power_manager
         holds WiFi up while any browser is active. Assets served no-cache (ETag)
         instead of the hand-bumped ?v=.
+        RPM output moved from LEDC to a GPTimer square wave: on Arduino-ESP32
+        3.3.x / IDF 5.5.2 the LEDC duty update spins with interrupts off until
+        the previous update latches (one timer period on the ESP32), which at
+        tach rates trips the 300 ms interrupt watchdog and reboots the board.
+        LEDC also pinned the timer to the APB clock, so nothing under ~76 Hz
+        was reachable at 10-bit.
 
 Forbes-Automotive, 2025
 */

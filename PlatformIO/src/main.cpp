@@ -14,7 +14,7 @@ void setup() {
     readEEP(); // read settings from NVS before anything else, as they affect init behaviour
 
     basicInit(); // Serial, pins, CAN, timer
-    setupTimer(); // LEDC timer and channel for RPM output
+    setupTimer(); // hardware timer (GPTimer) driving the RPM square-wave output
 
     if (hasNeedleSweep) {
         needleSweep(); // perform initial needle sweep if enabled (before WiFi so it doesn't block UI)
