@@ -1,13 +1,74 @@
 {
   "product": "can2rpm",
-  "latest": "1.07",
+  "latest": "1.08",
+  "latestByBoard": {
+    "esp32": "1.08",
+    "esp32c3": "1.08"
+  },
   "releases": [
+    {
+      "version": "1.08",
+      "channel": "stable",
+      "date": "2026-10-09",
+      "ota": true,
+      "notes": "ESP32-C3 (rev3 SuperMini) board support (first C3 release); DevKit build unchanged in behaviour. Per-board OTA with wrong-board protection.",
+      "boards": {
+        "esp32": {
+          "firmware": {
+            "path": "V1.08/firmware.bin",
+            "size": 1189520,
+            "sha256": "266602ce414a9b5e1d450497c1a798bf54d40a1d39c8be1272237dd231a0a6af"
+          },
+          "filesystem": {
+            "path": "V1.08/littlefs.bin",
+            "size": 655360,
+            "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+          }
+        },
+        "esp32c3": {
+          "firmware": {
+            "path": "V1.08-C3/firmware.bin",
+            "size": 1215408,
+            "sha256": "f73a1ca21a809c532477ce36af4cd7e15e7366f8a0630373418c35947d5d084d"
+          },
+          "filesystem": {
+            "path": "V1.08-C3/littlefs.bin",
+            "size": 655360,
+            "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+          }
+        }
+      },
+      "firmware": {
+        "path": "V1.08/firmware.bin",
+        "size": 1189520,
+        "sha256": "266602ce414a9b5e1d450497c1a798bf54d40a1d39c8be1272237dd231a0a6af"
+      },
+      "filesystem": {
+        "path": "V1.08/littlefs.bin",
+        "size": 655360,
+        "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+      }
+    },
     {
       "version": "1.07",
       "channel": "stable",
       "date": "2026-09-21",
       "ota": true,
       "notes": "OTA overhaul: update from GitHub, Home WiFi bridge mode, recovery page; shared ota_manager/wifi_manager v2.",
+      "boards": {
+        "esp32": {
+          "firmware": {
+            "path": "V1.07/firmware.bin",
+            "size": 1188064,
+            "sha256": "b295101ad27e5469a9a97b7182e9b74d00ca64f71e957708712eb11c5153acd4"
+          },
+          "filesystem": {
+            "path": "V1.07/littlefs.bin",
+            "size": 655360,
+            "sha256": "674e682ef5fc56075c6a9dfbf11519fedcd1800d5d332d6c9f1e6b9cb96d6c3d"
+          }
+        }
+      },
       "firmware": {
         "path": "V1.07/firmware.bin",
         "size": 1188064,
@@ -25,6 +86,20 @@
       "date": "2026-09-20",
       "ota": true,
       "notes": "Shared UI theme; common wifi_manager/ota_manager.",
+      "boards": {
+        "esp32": {
+          "firmware": {
+            "path": "V1.06/firmware.bin",
+            "size": 1087744,
+            "sha256": "5818df61fdc3781a65d3badbcaf56d5724a68efe6f2d8a4a61649d9149ae45a7"
+          },
+          "filesystem": {
+            "path": "V1.06/littlefs.bin",
+            "size": 1441792,
+            "sha256": "f92e4845adcaa8eb8b81a02e71adc584c6c2f8033764e06b911c5030738c8c3d"
+          }
+        }
+      },
       "firmware": {
         "path": "V1.06/firmware.bin",
         "size": 1087744,
@@ -42,6 +117,20 @@
       "date": "2026-09-20",
       "ota": true,
       "notes": "",
+      "boards": {
+        "esp32": {
+          "firmware": {
+            "path": "V1.05/firmware.bin",
+            "size": 1044560,
+            "sha256": "f5b3d9caccabf3a4a42597d5fd69b35b81ab37f62adf25c9aced1e9266f88837"
+          },
+          "filesystem": {
+            "path": "V1.05/littlefs.bin",
+            "size": 1441792,
+            "sha256": "d73ea18aae91163575e8537586e3104bda084ef760f91584c1c6dcfdcab981f5"
+          }
+        }
+      },
       "firmware": {
         "path": "V1.05/firmware.bin",
         "size": 1044560,
