@@ -22,7 +22,7 @@
           "filesystem": {
             "path": "V1.08/littlefs.bin",
             "size": 655360,
-            "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+            "sha256": "765691ce8796227590c4f54d5426f401bad0211484e50be6aeb4fc900c5b4c1b"
           }
         },
         "esp32c3": {
@@ -34,7 +34,7 @@
           "filesystem": {
             "path": "V1.08-C3/littlefs.bin",
             "size": 655360,
-            "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+            "sha256": "765691ce8796227590c4f54d5426f401bad0211484e50be6aeb4fc900c5b4c1b"
           }
         }
       },
@@ -46,7 +46,7 @@
       "filesystem": {
         "path": "V1.08/littlefs.bin",
         "size": 655360,
-        "sha256": "cbdd16e4c2b731fb5923b076564bdca89bddf28acac54658f00a7e2faba1b4c2"
+        "sha256": "765691ce8796227590c4f54d5426f401bad0211484e50be6aeb4fc900c5b4c1b"
       }
     },
     {
