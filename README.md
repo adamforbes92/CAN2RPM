@@ -1,5 +1,7 @@
 # CAN2RPM
 
+**Get one ready-built:** [CAN2RPM at Forbes Automotive](https://forbes-automotive.com/products/can2rpm?utm_source=github&utm_medium=readme&utm_campaign=can2rpm) · Not sure which board you need? See the [speedo, tacho & cluster comparison](https://forbes-automotive.com/collections/speedo-tacho-cluster?utm_source=github&utm_medium=readme&utm_campaign=can2rpm).
+
 ESP32-based converter that reads engine RPM from a CAN bus and outputs a traditional coil-type signal for use with MK1/MK2 analog tachometers.
 
 Built around the ESP32 DevKit V1, it captures VAG/ME7.x CAN messages and translates them into a high-voltage square-wave RPM output suitable for clusters that expect a coil ignition pulse.
