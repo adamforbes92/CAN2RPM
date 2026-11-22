@@ -144,6 +144,12 @@ pio run -t uploadfs
 
 ---
 
+## Version history
+
+- **1.09** – phone touch UI: no long-press copy menu; scrolling the page never moves a slider (shared touchui.js/css)
+
+---
+
 ## Disclaimer
 
 This drives a tachometer but should always be assumed to have some inaccuracy. Forbes Automotive accepts no responsibility for speed or RPM related incidents.

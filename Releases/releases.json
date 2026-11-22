@@ -1,11 +1,54 @@
 {
   "product": "can2rpm",
-  "latest": "1.08",
+  "latest": "1.09",
   "latestByBoard": {
-    "esp32": "1.08",
-    "esp32c3": "1.08"
+    "esp32": "1.09",
+    "esp32c3": "1.09"
   },
   "releases": [
+    {
+      "version": "1.09",
+      "channel": "stable",
+      "date": "2026-11-22",
+      "ota": true,
+      "notes": "Phone touch UI: no long-press copy menu; scrolling the page never moves a slider (shared touchui.js/css).",
+      "boards": {
+        "esp32": {
+          "firmware": {
+            "path": "V1.09/firmware.bin",
+            "size": 1135296,
+            "sha256": "0286cd660b2c9d4a79bae18899cc9142300924672b8313309cbbab067bb884d2"
+          },
+          "filesystem": {
+            "path": "V1.09/littlefs.bin",
+            "size": 655360,
+            "sha256": "f65a0a39cfc3465fca55525e56fb40f32eade588c8e6ea4ff85208c134ddb5ca"
+          }
+        },
+        "esp32c3": {
+          "firmware": {
+            "path": "V1.09-C3/firmware.bin",
+            "size": 1242304,
+            "sha256": "96d0be70932518fca93d247063cdb5975ddfe96881410b77b2a2e5631e92ee6b"
+          },
+          "filesystem": {
+            "path": "V1.09-C3/littlefs.bin",
+            "size": 655360,
+            "sha256": "f65a0a39cfc3465fca55525e56fb40f32eade588c8e6ea4ff85208c134ddb5ca"
+          }
+        }
+      },
+      "firmware": {
+        "path": "V1.09/firmware.bin",
+        "size": 1135296,
+        "sha256": "0286cd660b2c9d4a79bae18899cc9142300924672b8313309cbbab067bb884d2"
+      },
+      "filesystem": {
+        "path": "V1.09/littlefs.bin",
+        "size": 655360,
+        "sha256": "f65a0a39cfc3465fca55525e56fb40f32eade588c8e6ea4ff85208c134ddb5ca"
+      }
+    },
     {
       "version": "1.08",
       "channel": "stable",
